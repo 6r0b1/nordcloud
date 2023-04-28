@@ -10,6 +10,7 @@ import { IUserInput } from "../types/interfaces";
 
 export default function Home() {
     // initial states for user input and form validation
+    // initialize user input state with invalid values to prevent submit
     const [userInput, setUserInput] = useState<IUserInput>({
         posX: -1,
         posY: -1,
@@ -17,7 +18,7 @@ export default function Home() {
     const [invalidInput, setInvalidInput] = useState(false);
 
     // update user input state on change of imput values
-    function handleChange(e) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setUserInput({
             ...userInput,
             [e.target.name]: parseInt(e.target.value),
@@ -87,6 +88,7 @@ export default function Home() {
                             onChange={handleChange}
                         />
                     </div>
+                    {/* conditional render error message or submit depending on if invalid input is present */}
                     {invalidInput ? (
                         <p className="error">
                             Please input a number between 0 and 100

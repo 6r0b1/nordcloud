@@ -4,12 +4,13 @@ import { number } from "react-admin";
 
 import { IStationInReach } from "../../types/interfaces";
 
-type Data = {
-    name: string;
-};
+// type Data = {
+//     posX: number;
+//     posY: number;
+// };
 
 // to see if given query was already calculated
-async function checkDB(posX, posY) {
+async function checkDB(posX: number, posY: number) {
     return await prismaClient.previous_results.findMany({
         where: {
             pos_x: posX,
@@ -19,7 +20,7 @@ async function checkDB(posX, posY) {
 }
 
 // to calculate best possible station for given inputs
-function findStation(posX, posY) {
+function findStation(posX: number, posY: number) {
     console.log(posX, posY);
 
     // get all stations from db
@@ -61,7 +62,7 @@ export default async function handler(
 ) {
     try {
         // check db if result for input exists
-        const station = await checkDB(req.body.posx, req.body.posY);
+        const station = await checkDB(req.body.posX, req.body.posY);
         if (station.length > 0) {
             // return value from db if exists
             res.status(200).json(station[0]);
