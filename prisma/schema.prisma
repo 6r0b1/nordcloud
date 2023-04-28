@@ -10,11 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model station {
+model previous_results {
   id           Int      @id @default(autoincrement())
   pos_x        Int      
   pos_y        Int
   best_station Int
   speed        Int
+  created_at   DateTime @default(now())
+}
+model stations {
+  id           Int      @id @default(autoincrement())
+  pos_x        Int      
+  pos_y        Int
+  reach        Int
   created_at   DateTime @default(now())
 }
