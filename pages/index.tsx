@@ -10,7 +10,10 @@ import { IUserInput } from "../types/interfaces";
 
 export default function Home() {
     // initial states for user input and form validation
-    const [userInput, setUserInput] = useState<IUserInput>({});
+    const [userInput, setUserInput] = useState<IUserInput>({
+        posX: -1,
+        posY: -1,
+    });
     const [invalidInput, setInvalidInput] = useState(false);
 
     // update user input state on change of imput values
@@ -31,8 +34,6 @@ export default function Home() {
             isNaN(userInput.posX) ||
             isNaN(userInput.posY)
         ) {
-            console.log("invalid input");
-
             setInvalidInput(true);
             return;
         } else {
@@ -40,15 +41,16 @@ export default function Home() {
         }
     }, [userInput]);
 
-    function handleSubmit() {
-        console.log("submit");
-        fetch("/api/station", {
+    async function handleSubmit() {
+        const queryResponse = await fetch("/api/station", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(userInput),
         });
+        const bestStationData = await queryResponse.json();
+        console.log(bestStationData);
     }
 
     return (
