@@ -51,7 +51,20 @@ export default function Home() {
             body: JSON.stringify(userInput),
         });
         const bestStationData = await queryResponse.json();
-        console.log(bestStationData);
+
+        if (bestStationData?.name === "error") {
+            alert(
+                "There was an error with your request, please try again later"
+            );
+        } else {
+            if (bestStationData.station_x === null) {
+                alert("There are no stations in range of your location");
+                return;
+            }
+            alert(
+                `Best station for your location (${userInput.posX}, ${userInput.posY}) is at: (${bestStationData.station_x}, ${bestStationData.station_y}) with speed ${bestStationData.speed}`
+            );
+        }
     }
 
     return (
@@ -97,9 +110,6 @@ export default function Home() {
                     ) : (
                         <button onClick={handleSubmit}>Submit</button>
                     )}
-                    {/* {inputsCompleted && (
-                        <button onClick={handleSubmit}>Submit</button>
-                    )} */}
                 </div>
             </main>
         </>

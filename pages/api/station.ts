@@ -5,6 +5,7 @@ import { number } from "react-admin";
 import { IStationInReach } from "../../types/interfaces";
 
 // to see if given query was already calculated
+// to-do: implement request count to see how often a query was made
 async function checkDB(posX: number, posY: number) {
     return await prismaClient.previous_results.findMany({
         where: {
@@ -21,8 +22,6 @@ async function checkDB(posX: number, posY: number) {
 
 // to calculate best possible station for given inputs
 function findStation(posX: number, posY: number) {
-    console.log(posX, posY);
-
     // to-do: get all stations from db
     const stations = [
         { pos_x: 0, pos_y: 0, reach: 9 },
