@@ -49,6 +49,8 @@ export default function Home() {
     }, [userInput]);
 
     async function handleSubmit() {
+        console.log(userInput);
+
         const queryResponse = await fetch("/api/station", {
             method: "POST",
             headers: {
@@ -95,7 +97,7 @@ export default function Home() {
                 >
                     <div className="response">
                         {bestStation.station_x === null ? (
-                            <p>
+                            <p className="error">
                                 There are no stations in range of your location
                                 ({userInput.posX}, {userInput.posY})
                             </p>
