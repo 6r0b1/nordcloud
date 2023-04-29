@@ -58,7 +58,9 @@ export default function Home() {
             );
         } else {
             if (bestStationData.station_x === null) {
-                alert("There are no stations in range of your location");
+                alert(
+                    `There are no stations in range of your location (${userInput.posX}, ${userInput.posY})`
+                );
                 return;
             }
             alert(
