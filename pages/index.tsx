@@ -15,7 +15,7 @@ export default function Home() {
         posX: -1,
         posY: -1,
     });
-    const [invalidInput, setInvalidInput] = useState(false);
+    const [invalidInput, setInvalidInput] = useState(true);
     const [gotResponse, setGotResponse] = useState(false);
     const [bestStation, setBestStation] = useState({
         station_x: null,
