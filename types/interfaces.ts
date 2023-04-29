@@ -4,7 +4,7 @@ export interface IUserInput {
 }
 
 export interface IStationInReach {
-    stationX: number;
-    stationY: number;
-    speed: number;
+    station_x: number | null;
+    station_y: number | null;
+    speed: number | null;
 }

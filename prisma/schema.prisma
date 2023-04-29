@@ -14,9 +14,9 @@ model previous_results {
   id           Int      @id @default(autoincrement())
   pos_x        Int      
   pos_y        Int
-  station_x    Int
-  station_y    Int
-  speed        Int
+  station_x    Int?
+  station_y    Int?
+  speed        Float?
   created_at   DateTime @default(now())
 }
 model stations {

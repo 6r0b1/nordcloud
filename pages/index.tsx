@@ -91,7 +91,8 @@ export default function Home() {
                     {/* conditional render error message or submit depending on if invalid input is present */}
                     {invalidInput ? (
                         <p className="error">
-                            Please input a number between 0 and 100
+                            Please input a number between 0 and 100, decimal
+                            values will be rounded down
                         </p>
                     ) : (
                         <button onClick={handleSubmit}>Submit</button>
