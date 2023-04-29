@@ -135,7 +135,7 @@ export default function Home() {
                             <input
                                 name="posY"
                                 type="text"
-                                placeholder="position: y | 0 <= y <= 100"
+                                placeholder="0 <= y <= 100"
                                 onChange={handleChange}
                             />
                         </div>
