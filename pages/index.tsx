@@ -15,7 +15,7 @@ export default function Home() {
         posX: -1,
         posY: -1,
     });
-    const [invalidInput, setInvalidInput] = useState(true);
+    const [invalidInput, setInvalidInput] = useState(false);
     const [gotResponse, setGotResponse] = useState(false);
     const [bestStation, setBestStation] = useState({
         station_x: null,
@@ -29,10 +29,27 @@ export default function Home() {
             ...userInput,
             [e.target.name]: parseInt(e.target.value),
         });
+        setInvalidInput(false);
     }
 
-    useEffect(() => {
-        // validate user input
+    // useEffect(() => {
+    //     // validate user input
+    //     if (
+    //         userInput.posX < 0 ||
+    //         userInput.posX > 100 ||
+    //         userInput.posY < 0 ||
+    //         userInput.posY > 100 ||
+    //         isNaN(userInput.posX) ||
+    //         isNaN(userInput.posY)
+    //     ) {
+    //         setInvalidInput(true);
+    //         return;
+    //     } else {
+    //         setInvalidInput(false);
+    //     }
+    // }, [userInput]);
+
+    async function handleSubmit() {
         if (
             userInput.posX < 0 ||
             userInput.posX > 100 ||
@@ -43,13 +60,7 @@ export default function Home() {
         ) {
             setInvalidInput(true);
             return;
-        } else {
-            setInvalidInput(false);
         }
-    }, [userInput]);
-
-    async function handleSubmit() {
-        console.log(userInput);
 
         const queryResponse = await fetch("/api/station", {
             method: "POST",
