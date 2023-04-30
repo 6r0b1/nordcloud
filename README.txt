@@ -1,18 +1,33 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Important Preparation:
 
-Use Node Version Manager to specify Node version 16.19.0
 
 ## Getting Started
 
-After cloning repo create a postgres database "stationfinder"
+For your convenience the app is already running on my vm at https://apptest.pinkblau.de/
+
+## To run locally
+
+## ---
+## Important Preparation:
+
+Use Node Version Manager to specify Node version 16.19.0 to prevent errors at install or build
+
+## Preparation end
+## ---
+
+After cloning repo create a postgresql database "stationfinder".
+
+Create neccessary .env:
 
 $ touch .env
 $ nano .env
 
-Add to file:
+Add to .env file:
+
 DATABASE_URL="postgresql://[yourPostgresUser]:[yourPostgresPassword]@localhost:5432/stationfinder?schema=public"
+
+Install packages, sync db with prisma schema, build and run: 
 
 $ npm install
 
@@ -26,6 +41,7 @@ You should now have the app running at localhost:3000
 
 ## Testing
 
+## ---
 ## Notes on tests
 
 Tests for User Inputs (15, 10) and (18, 18) fail on fresh database.
@@ -34,6 +50,7 @@ On second run all tests will pass since mock reqests will then be answered by fu
 This is probably due to prisma/postgres rounding earlier.
 
 ## Notes end
+## ---
 
 Testing is implemented using Jest.
 
