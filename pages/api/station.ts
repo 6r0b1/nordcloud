@@ -3,14 +3,17 @@ import { prismaClient } from "../../prisma/prismaClient";
 
 import { IStationInReach } from "../../types/interfaces";
 
-// to see if given query was already calculated
-// to-do: implement request count to see how often a query was made
+// Check if given query was already calculated
+// -----------------------------------------------
+// roadmap: implement request count to see how often a query was made
+// roadmap: clear previous_results table after new stations are added
 async function checkDB(posX: number, posY: number) {
     return await prismaClient.previous_results.findMany({
         where: {
             pos_x: posX,
             pos_y: posY,
         },
+        // return only needed values
         select: {
             station_x: true,
             station_y: true,
@@ -19,9 +22,11 @@ async function checkDB(posX: number, posY: number) {
     });
 }
 
-// to calculate best possible station for given inputs
+// Calculate best possible station for given inputs
+// -----------------------------------------------
+// roadmap: get stations from db table stations instead of hard coded
 function findStation(posX: number, posY: number) {
-    // to-do: get all stations from db
+    // initialize stations array
     const stations = [
         { pos_x: 0, pos_y: 0, reach: 9 },
         { pos_x: 20, pos_y: 20, reach: 6 },
@@ -31,7 +36,7 @@ function findStation(posX: number, posY: number) {
     ];
     // initialize array for stations in reach
     let stationsInReach: IStationInReach[] = [];
-    // calculate if in reach and speed for each station
+    // for each station ...
     stations.map((station) => {
         // calculate distance between user input and station
         const distance = Math.sqrt(
@@ -48,7 +53,7 @@ function findStation(posX: number, posY: number) {
             });
         }
     });
-    // sort by speed, descending
+    // sort stations in reach by speed, descending
     stationsInReach.sort((a, b) => {
         return b.speed - a.speed;
     });
@@ -57,7 +62,7 @@ function findStation(posX: number, posY: number) {
     return stationsInReach;
 }
 
-// to save result to db
+// Save result to db
 async function saveResult(
     posX: number,
     posY: number,
@@ -65,7 +70,8 @@ async function saveResult(
 ) {
     // initialize result object
     let result = {};
-    // to avoid invalid invocation with null values
+    // to avoid invalid invocation with null values for station_x, station_y and speed
+    // omit values for station_x, station_y and speed if no station in reach
     if (stationsInReach.length > 0) {
         result = {
             pos_x: posX,
@@ -80,6 +86,7 @@ async function saveResult(
             pos_y: posY,
         };
     }
+    // save result to db
     await prismaClient.previous_results.create({
         data: result,
     });
@@ -92,15 +99,15 @@ export default async function findStationHandler(
     try {
         // check db if result for input exists
         const station = await checkDB(req.body.posX, req.body.posY);
+        // return value from db if exists
         if (station.length > 0) {
-            // return value from db if exists
             res.status(200).json(station[0]);
         } else {
             // calculate best station for given input
             const stationsInReach = findStation(req.body.posX, req.body.posY);
             // save result to db
             await saveResult(req.body.posX, req.body.posY, stationsInReach);
-            // set null if no station in reach for given input to make testable
+            // set null if no station in reach for given input to generate comparable/testable result
             if (stationsInReach.length === 0) {
                 stationsInReach.push({
                     station_x: null,
@@ -112,6 +119,9 @@ export default async function findStationHandler(
             res.status(200).json(stationsInReach[0]);
         }
     } catch (error) {
+        // return error if something went wrong to prevent frontend request timeout
+        // no log of error to prevent log spam
+        // turn on error logging for troubleshooting
         res.status(500).json({ result: "error" });
     }
 }

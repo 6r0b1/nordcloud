@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Important Preparation:
 
-Use Node Version Manager to specify Node Version 16.19.0
+Use Node Version Manager to specify Node version 16.19.0
 
 ## Getting Started
 
