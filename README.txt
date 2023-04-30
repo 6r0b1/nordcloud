@@ -18,7 +18,7 @@ Use Node Version Manager to specify Node version 16.19.0 to prevent errors at in
 
 After cloning repo create a postgresql database "stationfinder".
 
-Create neccessary .env:
+Create necessary .env:
 
 $ touch .env
 $ nano .env
@@ -58,7 +58,7 @@ Tests are specified for /api/station including:
 
 Test for expected status codes
 Tests for expected error messages
-Tests for expected responses using input values specified in the asignment:
+Tests for expected responses using input values specified in the assignment:
 (0, 0), (100, 100), (15, 10), (18, 18), (13, 13) and (25, 99)
 
 Start tests:
